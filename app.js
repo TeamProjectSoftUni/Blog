@@ -22,6 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const config = require('./config/config');
+
+let env = 'development';
+require('./config/database')(config[env]);
+
 app.use('/', index);
 app.use('/users', users);
 
