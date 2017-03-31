@@ -1,0 +1,24 @@
+.navbar-collapse {
+    border-color: #060611 !important;
+}
+.button {
+    border-color: #060611 ;
+}
+.row{
+    margin: 34px;
+}
+.border{ 
+    border-radius: 2px;
+}
+.navbar navbar-default, container-fluid{
+    background-color:#060611 !important;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    background-color: #060611 !important;
+    border-color:#060611 !important;
+}
+.item active {
+    margin:0 !important;
+    padding:0 !important;
+}
