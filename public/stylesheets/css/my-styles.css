@@ -1,5 +1,5 @@
 .navbar-collapse {
-    border-color: #060611 !important;
+    border-color: #060611;
 }
 .button {
     border-color: #060611 ;
@@ -11,16 +11,16 @@
     border-radius: 2px;
 }
 .navbar navbar-default, container-fluid{
-    background-color:#060611 !important;
+    background-color:#060611;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
     background-color: #060611 !important;
-    border-color:#060611 !important;
+    border-color:#060611;
 }
 .item active {
-    margin:0 !important;
-    padding:0 !important;
+    margin:0;
+    padding:0;
 }
 .dropdown-toggle{
     color: white;
