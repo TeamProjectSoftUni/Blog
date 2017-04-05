@@ -9,6 +9,15 @@ let userSchema = mongoose.Schema(
     }
 );
 
+userSchema.method ({
+    authenticate: function (password) {
+        let inputPasswordHash = encryption.hashPassword(password, this.salt);
+        let isSamePasswordHash = inputPasswordHash === this.passwordHash;
+
+        return isSamePasswordHash;
+    }
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
