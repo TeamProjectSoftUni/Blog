@@ -76,5 +76,14 @@ module.exports = {
                 res.redirect(returnUrl);
             })
         })
+    },
+
+    details: (req, res) => {
+        res.render('user/details');
+    },
+
+    logout: (req, res) => {
+        req.logOut();
+        res.redirect('/');
     }
 };
