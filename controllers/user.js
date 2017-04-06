@@ -44,5 +44,37 @@ module.exports = {
                 })
             }
         })
+    },
+
+    loginGet: (req, res) => {
+        res.render('user/login');
+    },
+
+    loginPost: (req, res) => {
+        let loginArgs = req.body;
+
+        User.findOne({email: loginArgs.email}).then(user => {
+            if (!user || !user.authenticate(loginArgs.password)) {
+                let errorMsg = 'Either username or password is invalid!';
+                loginArgs.error = errorMsg;
+                res.render('user/login', loginArgs);
+                return;
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    console.log(err);
+                    res.render('/user/login', {error: err.message});
+                    return;
+                }
+
+                let returnUrl = '/';
+                if(req.session.returnUrl) {
+                    returnUrl = req.session.returnUrl;
+                    delete req.session.returnUrl;
+                }
+
+                res.redirect(returnUrl);
+            })
+        })
     }
 };

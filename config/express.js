@@ -22,7 +22,7 @@ module.exports = (app, config) => {
 
     app.use((req, res, next) => {
         if(req.user){
-            res.locals.user = user;
+            res.locals.user = req.user;
         }
         next();
     });
