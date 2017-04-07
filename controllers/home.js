@@ -1,5 +1,5 @@
 module.exports = {
     index: (req, res) => {
-            res.render('layout');
+            res.render('home/index');
     }
 };
