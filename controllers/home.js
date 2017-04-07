@@ -1,5 +1,11 @@
+const mongoose = require('mongoose');
+const Article = mongoose.model('Article');
+
+
 module.exports = {
     index: (req, res) => {
-            res.render('home/index');
+            Article.find({}).limit(8).populate('author').then(articles => {
+                res.render('home/index', {articles: articles})
+            })
     }
 };
