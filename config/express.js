@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
+const fileUpload = require('express-fileupload');
 
 module.exports = (app, config) => {
 
@@ -19,6 +20,8 @@ module.exports = (app, config) => {
 
     app.use(passport.initialize());
     app.use(passport.session());
+
+    app.use(fileUpload());
 
     app.use((req, res, next) => {
         if(req.user){

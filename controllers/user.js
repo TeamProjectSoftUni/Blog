@@ -25,10 +25,25 @@ module.exports = {
                 let salt = encryption.generateSalt();
                 let passwordHash = encryption.hashPassword(registerArgs.password, salt);
 
+                let image = req.files.image;
+
+                if (image) {
+                    let filename = image.name;
+
+                    image.mv(`./../public/images/${filename}` , err => {
+                        if (err) {
+                            console.log(err.message)
+                        }
+                    });
+                }
+
+                let path = registerArgs.imagePath = `/images/${image.name}`;
+
                 let userObject = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
+                    imagePath: path,
                     salt: salt,
                 };
 
