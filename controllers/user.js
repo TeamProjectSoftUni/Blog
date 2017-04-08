@@ -26,18 +26,29 @@ module.exports = {
                 let passwordHash = encryption.hashPassword(registerArgs.password, salt);
 
                 let image = req.files.image;
+                let path = '';
 
                 if (image) {
-                    let filename = image.name;
+                    let filenameAndExtension = image.name;
+                    let filename = filenameAndExtension.substring(0, filenameAndExtension.lastIndexOf('.'));
+                    let extension = filenameAndExtension.substring(filenameAndExtension.lastIndexOf('.') + 1);
 
-                    image.mv(`./../public/images/${filename}` , err => {
+                    let replaceSlash = /\//g;
+
+                    let randomChars = require('./../utilities/encryption')
+                        .generateSalt()
+                        .substring(0, 6)
+                        .replace(replaceSlash, 'e');
+
+                    let finalFilename = `${filename}_${randomChars}.${extension}`;
+
+                    image.mv(`./../public/images/${finalFilename}` , err => {
                         if (err) {
                             console.log(err.message)
                         }
                     });
+                    path = registerArgs.imagePath = `/images/${finalFilename}`;
                 }
-
-                let path = registerArgs.imagePath = `/images/${image.name}`;
 
                 let userObject = {
                     email: registerArgs.email,
