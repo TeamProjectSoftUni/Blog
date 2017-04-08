@@ -109,6 +109,10 @@ module.exports = {
         res.render('user/details');
     },
 
+    detailsEdit: (req, res) => {
+        res.render('user/details-edit');
+    },
+
     logout: (req, res) => {
         req.logOut();
         res.redirect('/');
