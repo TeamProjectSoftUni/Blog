@@ -24,4 +24,10 @@ module.exports.initialize = () => {
             Role.create({name: 'Admin'});
         }
     });
+
+    Role.findOne({name: 'Moderator'}).then(role => {
+        if(!role){
+            Role.create({name:'Moderator'});
+        }
+    });
 };
