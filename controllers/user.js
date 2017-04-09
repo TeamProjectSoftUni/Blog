@@ -25,10 +25,36 @@ module.exports = {
                 let salt = encryption.generateSalt();
                 let passwordHash = encryption.hashPassword(registerArgs.password, salt);
 
+                let image = req.files.image;
+                let path = '';
+
+                if (image) {
+                    let filenameAndExtension = image.name;
+                    let filename = filenameAndExtension.substring(0, filenameAndExtension.lastIndexOf('.'));
+                    let extension = filenameAndExtension.substring(filenameAndExtension.lastIndexOf('.') + 1);
+
+                    let replaceSlash = /\//g;
+
+                    let randomChars = require('./../utilities/encryption')
+                        .generateSalt()
+                        .substring(0, 6)
+                        .replace(replaceSlash, 'e');
+
+                    let finalFilename = `${filename}_${randomChars}.${extension}`;
+
+                    image.mv(`./../public/images/${finalFilename}` , err => {
+                        if (err) {
+                            console.log(err.message)
+                        }
+                    });
+                    path = registerArgs.imagePath = `/images/${finalFilename}`;
+                }
+
                 let userObject = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
+                    imagePath: path,
                     salt: salt,
                 };
 
@@ -107,6 +133,10 @@ module.exports = {
 
     details: (req, res) => {
         res.render('user/details');
+    },
+
+    detailsEdit: (req, res) => {
+        res.render('user/details-edit');
     },
 
     logout: (req, res) => {
