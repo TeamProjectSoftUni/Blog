@@ -1928,9 +1928,11 @@ pre code {
     margin-left: 0;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1230px) {
   .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
-    float: left;
+    float: none;
+    margin-left: 157px;
+    margin-right: 225px;
   }
   .col-md-12 {
     width: 100%;
@@ -5468,6 +5470,7 @@ button.list-group-item-danger.active:focus {
   margin-bottom: 0;
   font-size: 16px;
   color: inherit;
+  text-align-last: center;
 }
 .panel-title > a,
 .panel-title > small,
@@ -5816,6 +5819,8 @@ button.list-group-item-danger.active:focus {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
+  margin-left: 113px;
+  margin-right: 20px;
   background-color: #afb5e0;
   border: 5px solid #e3e3e3;
   border-radius: 4px;

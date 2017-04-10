@@ -1,13 +1,14 @@
 <div style="padding-top:50px;"></div>
 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div id="panel">
     <div class="panel panel-default">
         <div class="panel-body">
-            <h1 class="panel-title pull-left" style="font-size:30px;">My basic profile</h1>
+            <h1 class="panel-title clearfix" style="font-size:30px;">My basic profile</h1>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="panel-title pull-left">Your Name</h3>
+            <h3 class="panel-title clearfix">Your Name</h3>
             <br><br>
             <form class="form-horizontal">
                 <label for="First_name">First name</label>
@@ -19,42 +20,37 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="panel-title pull-left">Describe yourself in 5 words</h3>
+            <h3 class="panel-title clearfix">Describe yourself in 5 words</h3>
             <br><br>
             <form class="form-horizontal">
-                <input type="text" class="form-control" id="keywords" placeholder="Like #movies #kittens #travel #teacher #newyork">
+                <input type="text" class="form-control" id="keywords" placeholder="Like #movies #cats #travel #teacher #newyork">
             </form>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="panel-title pull-left">Your photo</h3>
+            <h3 class="panel-title clearfix">Your photo</h3>
             <br><br>
             <div align="center">
                 <div class="col-lg-12 col-md-12">
                     <img class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
                 </div>
                 <div class="col-lg-12 col-md-12">
-                    <button class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> Upload a new profile photo!</button>
+                    <button class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i>Upload a new profile photo!</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="panel-title pull-left">My extended profile</h3>
-            <br><br>
-            <p>Visibility of your extended profile:</p>
-            ...
-            <br><br>
             <form class="form-horizontal">
                 <label>Your bio</label>
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" id="bio" required name="bio" value={{bio}}></textarea>
             </form>
             <br><br>
             <form class="form-horizontal">
-                <label for="Your_location">Your location</label>
-                <input type="text" class="form-control" id="Your_location" placeholder="" required name="location" value={{location}}>
+                <label for="location">Your location</label>
+                <input type="text" class="form-control" id="location" placeholder="" required name="location" value={{location}}>
                 <br>
                 <label for="gender">Your gender</label>
                 <input type="text" class="form-control" id="gender" placeholder="" required name="gender" value={{gender}}>
@@ -167,15 +163,6 @@
                         <option value="1902">1902</option>
                         <option value="1901">1901</option>
                         <option value="1900">1900</option>
-                        <option value="1899">1899</option>
-                        <option value="1898">1898</option>
-                        <option value="1897">1897</option>
-                        <option value="1896">1896</option>
-                        <option value="1895">1895</option>
-                        <option value="1894">1894</option>
-                        <option value="1893">1893</option>
-                        <option value="1892">1892</option>
-                        <option value="1891">1891</option>
                     </select>
                     <select id="profile_date_month" name="profile[date][month]" class="form-control">
                         <option value="" selected="selected">Month</option>
@@ -227,23 +214,13 @@
                         <option value="31">31</option>
                     </select>
                 </div>
-            </form>
-        </div>
-    </div>
-    <hr>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <h3 class="panel-title pull-left">Profile settings</h3>
-            <br><br>
-            <h4>Search</h4>
-            <div class="well checkbox">
-                <label class="checkbox-inline" for="profile_searchable"><input type="checkbox" name="profile[searchable]" id="profile_searchable" value="true" checked="checked">
-                    Allow for people to search for you within diaspora*
-                </label>
+               </form>
+                <div id="buttons">
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button class="btn btn-primary"><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update Profile</button>
+                </div>
             </div>
-            <p class="text-danger"><strong><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> If you choose not to select this option, please add the #nsfw tag each time you share such material.</strong></p>
-            <button class="btn btn-default"><i class="fa fa-fw fa-times" aria-hidden="true"></i> Cancel</button>
-            <button class="btn btn-primary"><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update Profile</button>
         </div>
     </div>
 </div>
+<div style="padding-bottom:50px;"></div>

@@ -25,3 +25,13 @@
 .dropdown-toggle{
     color: white;
 }
+.buttons{
+    margin-top: 10px;
+}
+.panel{
+    margin-left: 30px;
+    margin-right: -30px;
+}
+p {
+    color: white;
+}
