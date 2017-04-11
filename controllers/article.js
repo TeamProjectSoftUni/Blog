@@ -42,5 +42,35 @@ module.exports = {
         Article.findById(id).populate('author').then(article => {
             res.render('article/details', article)
         });
-    }
+    },
+
+    editGet: (req, res) => {
+        let id = req.params.id;
+        Article.findById(id).then(article => {
+            res.render('article/edit', article)
+        });
+    },
+
+    editPost: (req, res) => {
+        let id = req.params.id;
+
+        let articleArgs = req.body;
+
+        let errorMsg = '';
+
+        if (!articleArgs.title) {
+            errorMsg = 'Article title cannot be empty!';
+        } else if (!articleArgs.content) {
+            errorMsg = 'Article content cannot be empty!';
+        }
+
+        if (errorMsg) {
+            res.render('article/edit', {error: errorMsg});
+            return;
+        }
+
+        Article.update({_id: id}, {$set: {title: articleArgs.title, content: articleArgs.content}}).then(updateStatus => {
+            res.redirect(`/article/details/${id}`);
+        });
+    },
 };

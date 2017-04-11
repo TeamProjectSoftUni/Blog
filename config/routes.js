@@ -23,4 +23,7 @@ module.exports = (app) => {
 
     app.get('/user/details-edit', userController.detailsEdit);
 
+    app.get('/article/edit/:id', articleController.editGet);
+    app.post('/article/edit/:id', articleController.editPost);
+
 };
