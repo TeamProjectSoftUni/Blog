@@ -10,6 +10,10 @@
                     {{content}}
                 </p>
 
+                {{#if imagePath}}
+                    <img src="{{imagePath}}" alt="Article Image">
+                {{/if}}
+
                 <small class="author">
                     {{author.fullName}}
                 </small>
