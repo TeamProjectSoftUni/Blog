@@ -55,6 +55,8 @@ module.exports = {
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
                     imagePath: path,
+                    firstName: registerArgs.firstName,
+                    lastName: registerArgs.lastName,
                     salt: salt,
                 };
 
@@ -135,8 +137,49 @@ module.exports = {
         res.render('user/details');
     },
 
-    detailsEdit: (req, res) => {
-        res.render('user/details-edit');
+    detailsEditGet: (req, res) => {
+        let id = req.params.id;
+        User.findById(id).then(user => {
+            res.render('user/details-edit', user)
+        });
+    },
+
+    detailsEditPost: (req,res) => {
+
+        let id = req.params.id;
+
+        let userArgs = req.body;
+
+        let image = req.files.image;
+        let path = '';
+
+        if (image) {
+            let filenameAndExtension = image.name;
+            let filename = filenameAndExtension.substring(0, filenameAndExtension.lastIndexOf('.'));
+            let extension = filenameAndExtension.substring(filenameAndExtension.lastIndexOf('.') + 1);
+
+            let replaceSlash = /\//g;
+
+            let randomChars = require('./../utilities/encryption')
+                .generateSalt()
+                .substring(0, 6)
+                .replace(replaceSlash, 'e');
+
+            let finalFilename = `${filename}_${randomChars}.${extension}`;
+
+            image.mv(`./../public/images/${finalFilename}` , err => {
+                if (err) {
+                    console.log(err.message)
+                }
+            });
+            path = userArgs.imagePath = `/images/${finalFilename}`;
+
+            let errorMsg = '';
+
+            User.update({_id: id}, {$set: {imagePath: path, firstName: userArgs.firstName, lastName: userArgs.lastName}}).then(updateStatus => {
+                res.redirect('/user/details');
+            });
+        }
     },
 
     logout: (req, res) => {
