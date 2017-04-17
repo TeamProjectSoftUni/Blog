@@ -118,7 +118,7 @@ module.exports = {
             req.logIn(user, (err) => {
                 if (err) {
                     console.log(err);
-                    res.render('/user/login', {error: err.message});
+                    res.redirect('/user/login', {error: err.message});
                     return;
                 }
 

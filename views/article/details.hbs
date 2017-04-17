@@ -3,11 +3,11 @@
         <div class="col-md-12">
             <article>
                 <header>
-                    <h2>{{title}}</h2>
+                    <h2>{{article.title}}</h2>
                 </header>
 
                 <p>
-                    {{content}}
+                    {{article.content}}
                 </p>
 
                 {{#if imagePath}}
@@ -15,13 +15,15 @@
                 {{/if}}
 
                 <small class="author">
-                    {{author.fullName}}
+                    {{article.author.fullName}}
                 </small>
 
                 <footer>
                     <div class="pull-right">
-                        <a class="btn btn-success btn-xs" href="/article/edit/{{id}}">Edit &raquo;</a>
-                        <a class="btn btn-danger btn-xs" href="/article/delete/{{id}}">Delete &raquo;</a>
+                        {{#if isUserAuthorized}}
+                            <a class="btn btn-success btn-xs" href="/article/edit/{{id}}">Edit &raquo;</a>
+                            <a class="btn btn-danger btn-xs" href="/article/delete/{{id}}">Delete &raquo;</a>
+                        {{/if}}
                         <a class="btn btn-default btn-xs" href="/">Back &raquo;</a>
                     </div>
                 </footer>
