@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 module.exports = (config) => {
     mongoose.connect(config.connectionString);
@@ -12,6 +13,7 @@ module.exports = (config) => {
 
         console.log('MongoDB ready!')
     });
-
-    require('./../models/User');
+    require('./../models/Role').initialize();
+    require('./../models/User').seedAdmin();
+    require('./../models/Article');
 };

@@ -5,6 +5,8 @@
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+.idea/modules.xml
+.idea
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -104,3 +106,5 @@ typings/
 
 # dotenv environment variables file
 .env
+.idea/Blog.iml
+.idea/inspectionProfiles/
