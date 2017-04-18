@@ -1,4 +1,5 @@
 const Article = require('mongoose').model('Article');
+const Comment = require('mongoose').model('Comment');
 
 module.exports = {
     createGet: (req, res) => {
@@ -10,7 +11,7 @@ module.exports = {
 
         let errorMsg = '';
 
-        if(!req.isAuthenticated()) {
+        if (!req.isAuthenticated()) {
             errorMsg = 'Please login first :P'
         } else if (!articleArgs.title) {
             errorMsg = 'Invalid Title!';
@@ -25,17 +26,17 @@ module.exports = {
 
         let image = req.files.image;
 
-        if(image){
+        if (image) {
             let fileNameAndExtension = image.name;
             let separatorIndex = fileNameAndExtension.lastIndexOf('.');
             let fileName = fileNameAndExtension.substring(0, separatorIndex);
             let extension = fileNameAndExtension.substring(separatorIndex + 1);
 
-            let randomSymbols = require('./../utilities/encryption').generateSalt().substring(0,5).replace(/\//g, 'd');
+            let randomSymbols = require('./../utilities/encryption').generateSalt().substring(0, 5).replace(/\//g, 'd');
             let finalFileName = `${fileName}_${randomSymbols}.${extension}`;
 
             image.mv(`./public/images/${finalFileName}`, err => {
-                if (err){
+                if (err) {
                     console.log(err.message);
                 }
             });
@@ -46,9 +47,9 @@ module.exports = {
         Article.create(articleArgs).then(article => {
             req.user.articles.push(article.id);
             req.user.save(err => {
-                if(err) {
+                if (err) {
                     res.redirect('/', {error: err.message})
-                }else {
+                } else {
                     res.redirect('/')
                 }
             })
@@ -56,26 +57,39 @@ module.exports = {
     },
 
     details: (req, res) => {
-        let id =req.params.id;
+        let id = req.params.id;
 
-        Article.findById(id).populate('author').then(article => {
-            if(!req.user){
-                res.render('article/details', { article: article, isUserAuthorized: false});
+        Article.findById(id).populate('author').populate('comments').then(article => {
+
+            if (!req.user) {
+                res.render('article/details', {article: article, isUserAuthorized: false});
                 return;
             }
-            req.user.isInRole('Admin').then(isAdmin => {
-                let isUserAuthorized = isAdmin || req.user.isAuthor(article);
 
-                res.render('article/details', {article:article, isUserAuthorized: isUserAuthorized});
+            req.user.isInRole('Admin').then(isAdmin => {
+                let isAuthor = req.user.isAuthor(article);
+
+                let isUserAuthorized = isAdmin || isAuthor;
+
+                res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
             });
-        });
+        })
     },
 
     editGet: (req, res) => {
         let id = req.params.id;
+
+        if (!req.isAuthenticated()) {
+            let returnUrl = `article/edit/${id}`;
+            req.session.returnUrl = returnUrl;
+
+            res.redirect('/user/login');
+            return;
+        }
+
         Article.findById(id).then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
-                if(!isAdmin && !req.user.isAuthor(article)){
+                if (!isAdmin && !req.user.isAuthor(article)) {
                     res.redirect('/');
                     return;
                 }
@@ -103,17 +117,22 @@ module.exports = {
             return;
         }
 
-        Article.update({_id: id}, {$set: {title: articleArgs.title, content: articleArgs.content}}).then(updateStatus => {
+        Article.update({_id: id}, {
+            $set: {
+                title: articleArgs.title,
+                content: articleArgs.content
+            }
+        }).then(updateStatus => {
             res.redirect(`/article/details/${id}`);
         });
     },
 
-    deleteGet: (req,res) => {
+    deleteGet: (req, res) => {
         let id = req.params.id;
 
-        if(!req.isAuthenticated()){
+        if (!req.isAuthenticated()) {
             let returnUrl = `article/delete/${id}`;
-            req.session.returnUrl =returnUrl;
+            req.session.returnUrl = returnUrl;
 
             res.redirect('/user/login');
             return;
@@ -121,12 +140,12 @@ module.exports = {
 
         Article.findById(id).then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
-                if(!isAdmin && !req.user.isAuthor(article)){
+                if (!isAdmin && !req.user.isAuthor(article)) {
                     res.redirect('/');
                     return;
                 }
 
-                res.render('/article/delete', article)
+                res.render('article/delete', article)
             });
         });
     },
@@ -139,12 +158,12 @@ module.exports = {
 
             let index = author.articles.indexOf(article.id);
 
-            if(index < 0) {
+            if (index < 0) {
                 let errorMsg = 'Article was not found for that author!';
                 res.render('article/delete', {error: errorMsg})
             } else {
                 let count = 1;
-                author.articles.splice(index. count);
+                author.articles.splice(index.count);
                 author.save().then((user) => {
                     res.redirect('/');
                 });
