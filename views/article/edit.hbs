@@ -1,6 +1,6 @@
 <div class="container body-content span=8 offset=2">
     <div class="well">
-        <form class="form-horizontal" method="POST" action="/article/edit/{{id}}">
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="/article/edit/{{id}}">
             <fieldset>
                 <legend>Edit Article</legend>
 
@@ -14,6 +14,13 @@
                     <label class="col-sm-4 control-label" for="articleContent">Content</label>
                     <div class="col-sm-6">
                         <textarea class="form-control" id="articleContent" rows="5" name="content" required>{{content}}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="content">Image</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="image" type="file" name="image">
                     </div>
                 </div>
 

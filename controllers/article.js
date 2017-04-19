@@ -117,10 +117,30 @@ module.exports = {
             return;
         }
 
+        let image = req.files.image;
+
+        if (image) {
+            let fileNameAndExtension = image.name;
+            let separatorIndex = fileNameAndExtension.lastIndexOf('.');
+            let fileName = fileNameAndExtension.substring(0, separatorIndex);
+            let extension = fileNameAndExtension.substring(separatorIndex + 1);
+
+            let randomSymbols = require('./../utilities/encryption').generateSalt().substring(0, 5).replace(/\//g, 'd');
+            let finalFileName = `${fileName}_${randomSymbols}.${extension}`;
+
+            image.mv(`./public/images/${finalFileName}`, err => {
+                if (err) {
+                    console.log(err.message);
+                }
+            });
+            articleArgs.imagePath = `/images/${finalFileName}`;
+        }
+
         Article.update({_id: id}, {
             $set: {
                 title: articleArgs.title,
-                content: articleArgs.content
+                content: articleArgs.content,
+                imagePath: articleArgs.imagePath
             }
         }).then(updateStatus => {
             res.redirect(`/article/details/${id}`);
