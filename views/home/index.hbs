@@ -1,27 +1,56 @@
-<div class="container body-content">
+<!--<div class="container body-content">-->
+<!--<div class="row">-->
+        <!--{{#each articles}}-->
+<!--<div class="col-md-6">-->
+<!--<article>-->
+<!--<header>-->
+<!--<h2>{{this.title}}</h2>-->
+<!--</header>-->
+
+<!--<p>{{this.content}}-->
+<!--</p>-->
+
+<!--<small class="author">-->
+<!--{{this.author.fullName}}-->
+<!--</small>-->
+
+<!--<footer>-->
+<!--<div class="pull-right">-->
+<!--<a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more &raquo;</a>-->
+<!--</div>-->
+<!--</footer>-->
+<!--</article>-->
+<!--</div>-->
+        <!--{{/each}}-->
+<!--<a class="btn btn-danger btn-xs" href="/user/details-edit/{{user.id}}">Delete &raquo;</a>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<div class="container">
     <div class="row">
         {{#each articles}}
-            <div class="col-md-6">
-                <article>
-                    <header>
-                        <h2>{{this.title}}</h2>
-                    </header>
-
-                    <p>{{this.content}}
-                    </p>
-
-                    <img src="{{this.imagePath}}"/>
-
-                    <small class="author">
-                        {{this.author.fullName}}
-                    </small>
-
-                    <footer>
-                        <div class="pull-right">
-                            <a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more &raquo;</a>
+            <div class="col-sm-4 col-md-4">
+                <div class="post">
+                    <div class="post-img-content">
+                        <img src="{{this.imagePath}}" class="img-responsive" />
+                        <span class="post-title"><b>{{this.title}}</b><br />
+                            <!--<b>CSS3 Blur</b>-->
+                    </span>
+                    </div>
+                    <div class="content">
+                        <div class="author">
+                            By <b>{{this.author.fullName}}</b> |
+                            <time datetime="yyyy-MM-dd">{{this.date}}</time>
                         </div>
-                    </footer>
-                </article>
+                        <div>
+                            {{this.content}}
+                        </div>
+                        <div>
+                            <a href="/article/details/{{this.id}}" class="btn btn-warning btn-sm">Read more</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         {{/each}}
     </div>
