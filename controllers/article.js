@@ -35,7 +35,7 @@ module.exports = {
             let randomSymbols = require('./../utilities/encryption').generateSalt().substring(0, 5).replace(/\//g, 'd');
             let finalFileName = `${fileName}_${randomSymbols}.${extension}`;
 
-            image.mv(`./public/images/${finalFileName}`, err => {
+            image.mv(`../public/images/${finalFileName}`, err => {
                 if (err) {
                     console.log(err.message);
                 }
@@ -128,7 +128,7 @@ module.exports = {
             let randomSymbols = require('./../utilities/encryption').generateSalt().substring(0, 5).replace(/\//g, 'd');
             let finalFileName = `${fileName}_${randomSymbols}.${extension}`;
 
-            image.mv(`./public/images/${finalFileName}`, err => {
+            image.mv(`../public/images/${finalFileName}`, err => {
                 if (err) {
                     console.log(err.message);
                 }
