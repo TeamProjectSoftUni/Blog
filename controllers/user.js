@@ -42,7 +42,7 @@ module.exports = {
 
                     let finalFilename = `${filename}_${randomChars}.${extension}`;
 
-                    image.mv(`./../public/images/${finalFilename}` , err => {
+                    image.mv(`./public/images/${finalFilename}` , err => {
                         if (err) {
                             console.log(err.message)
                         }
@@ -167,7 +167,7 @@ module.exports = {
 
             let finalFilename = `${filename}_${randomChars}.${extension}`;
 
-            image.mv(`./../public/images/${finalFilename}` , err => {
+            image.mv(`./public/images/${finalFilename}` , err => {
                 if (err) {
                     console.log(err.message)
                 }
