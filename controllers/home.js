@@ -5,7 +5,10 @@ const Article = mongoose.model('Article');
 module.exports = {
     index: (req, res) => {
             Article.find({}).limit(8).populate('author').then(articles => {
-                res.render('home/index', {articles: articles})
+                let message = req.session['message'];
+                let messageType = req.session['messageType'];
+
+                res.render('home/index', {articles: articles, message: message, messageType: messageType})
             })
     }
 };

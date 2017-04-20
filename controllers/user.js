@@ -19,8 +19,7 @@ module.exports = {
             }
 
             if (errorMsg) {
-                registerArgs.error = errorMsg;
-                res.render('user/register', registerArgs)
+                res.render('user/register', {registerArgs: registerArgs, messageType: "danger", message: errorMsg})
             } else {
                 let salt = encryption.generateSalt();
                 let passwordHash = encryption.hashPassword(registerArgs.password, salt);
@@ -62,10 +61,10 @@ module.exports = {
 
                 let roles = [];
                 Role.findOne({name: 'User'}).then(role => {
-                    role.push(role.id);
+                    roles.push(role.id);
 
                     userObject.roles = roles;
-                    User.create(UserObject).then(user => {
+                    User.create(userObject).then(user => {
                         role.users.push(user.id);
                         role.save(err => {
                             if(err) {
@@ -79,24 +78,15 @@ module.exports = {
                                         return;
                                     }
 
+                                    req.session['message'] = 'User registered successfully!';
+                                    req.session['messageType'] = 'success';
+
                                     res.redirect('/');
                                 })
                             }
                         })
                     })
-                })
-
-                User.create(userObject).then(user => {
-                    req.logIn(user, (err) => {
-                        if (err) {
-                            registerArgs.error = err.message;
-                            res.render('user/register', registerArgs);
-                            return;
-                        }
-
-                        res.redirect('/')
-                    })
-                })
+                });
             }
         })
     },
@@ -111,8 +101,7 @@ module.exports = {
         User.findOne({email: loginArgs.email}).then(user => {
             if (!user || !user.authenticate(loginArgs.password)) {
                 let errorMsg = 'Either username or password is invalid!';
-                loginArgs.error = errorMsg;
-                res.render('user/login', loginArgs);
+                res.render('user/login', {loginArgs: loginArgs, messageType: "danger", message: errorMsg});
                 return;
             }
             req.logIn(user, (err) => {
@@ -127,6 +116,9 @@ module.exports = {
                     returnUrl = req.session.returnUrl;
                     delete req.session.returnUrl;
                 }
+
+                req.session['message'] = 'User login successfully!';
+                req.session['messageType'] = 'success';
 
                 res.redirect(returnUrl);
             })

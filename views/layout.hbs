@@ -69,6 +69,11 @@
         </div>
     </nav>
 </header>
+
+{{#if message}}
+    <div class="alert alert-{{messageType}}">{{message}}</div>
+{{/if}}
+
 {{{body}}}
 </body>
 <footer>
