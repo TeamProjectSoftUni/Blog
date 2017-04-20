@@ -47,4 +47,7 @@ module.exports = (app) => {
     });
 
     app.get('/admin/user/data', adminController.user.data);
+
+    app.get('/admin/user/edit/:id', adminController.user.editGet);
+    app.post('/admin/user/edit/:id', adminController.user.editPost);
 };

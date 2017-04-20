@@ -8,7 +8,10 @@ module.exports = {
                 let message = req.session['message'];
                 let messageType = req.session['messageType'];
 
-                res.render('home/index', {articles: articles, message: message, messageType: messageType})
+                res.render('home/index', {articles: articles, message: message, messageType: messageType});
+
+                delete req.session.message;
+                delete req.session.messageType;
             })
     }
 };
