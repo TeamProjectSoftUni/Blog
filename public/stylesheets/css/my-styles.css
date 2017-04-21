@@ -79,3 +79,12 @@
     padding: 10px 15px;
     margin-top: 5px;
 }
+.control-label {
+    color: black;
+}
+.form-control {
+    color: black;
+}
+.user-edit {
+    color: black;
+}

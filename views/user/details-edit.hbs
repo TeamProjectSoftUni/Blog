@@ -1,17 +1,17 @@
-<form class="form-horizontal" enctype="multipart/form-data" method="post" action="/user/details-edit/{{user.id}}">
+<form class="form-horizontal user-edit" enctype="multipart/form-data" method="post" action="/user/details-edit/{{user.id}}">
 <div style="padding-top:50px;"></div>
 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
     <div id="panel">
     <div class="panel panel-default">
         <div class="panel-body">
-            <h1 class="panel-title clearfix" style="font-size:30px;">My basic profile</h1>
+            <h1 class="panel-title user-edit" style="font-size:30px;">My basic profile</h1>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
             <h3 class="panel-title clearfix">Your Name</h3>
             <br><br>
-            <form class="form-horizontal">
+            <form class="form-horizontal user-edit">
                 <label for="First_name">First name</label>
                 <input type="text" class="form-control" id="firstName" placeholder="ex. John" required name="firstName" value={{firstName}}>
                 <label for="Last_name">Last name</label>
@@ -30,11 +30,12 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="panel-title clearfix">Your photo</h3>
+            <h3 class="panel-title clearfix">Profile
+                <picture></picture></h3>
             <br><br>
             <div align="center">
                 <div class="col-lg-12 col-md-12">
-                    <img class="img-thumbnail img-responsive" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="300px" height="300px">
+                    <img class="img-thumbnail img-responsive" src="{{user.imagePath}}" width="300px" height="300px">
                 </div>
                 <label class="btn btn-primary" for="my-file-selector">
                     <input id="my-file-selector" name="image" type="file" style="display:none;">
