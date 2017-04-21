@@ -45,14 +45,8 @@ module.exports = {
 
         articleArgs.author = req.user.id;
         Article.create(articleArgs).then(article => {
-            req.user.articles.push(article.id);
-            req.user.save(err => {
-                if (err) {
-                    res.redirect('/', {error: err.message})
-                } else {
-                    res.redirect('/')
-                }
-            })
+            article.prepareInsert();
+            res.redirect('/');
         });
     },
 
@@ -173,21 +167,9 @@ module.exports = {
     deletePost: (req, res) => {
         let id = req.params.id;
 
-        Article.findOneAndRemove({_id: id}).populate('author').then(article => {
-            let author = article.author;
-
-            let index = author.articles.indexOf(article.id);
-
-            if (index < 0) {
-                let errorMsg = 'Article was not found for that author!';
-                res.render('article/delete', {error: errorMsg})
-            } else {
-                let count = 1;
-                author.articles.splice(index.count);
-                author.save().then((user) => {
-                    res.redirect('/');
-                });
-            }
+        Article.findOneAndRemove({_id: id}).then(article => {
+            article.prepareDelete();
+            res.redirect('/');
         })
     }
 };

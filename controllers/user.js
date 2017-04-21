@@ -41,7 +41,7 @@ module.exports = {
 
                     let finalFilename = `${filename}_${randomChars}.${extension}`;
 
-                    image.mv(`./public/images/${finalFilename}` , err => {
+                    image.mv(`./public/images/${finalFilename}`, err => {
                         if (err) {
                             console.log(err.message)
                         }
@@ -65,28 +65,21 @@ module.exports = {
 
                     userObject.roles = roles;
                     User.create(userObject).then(user => {
-                        role.users.push(user.id);
-                        role.save(err => {
-                            if(err) {
+                        user.prepareInsert();
+                        req.logIn(user, (err) => {
+                            if (err) {
                                 registerArgs.error = err.message;
                                 res.render('user/register', registerArgs);
-                            }else{
-                                req.logIn(user, (err) => {
-                                    if(err){
-                                        registerArgs.error = err.message;
-                                        res.render('user/register', registerArgs);
-                                        return;
-                                    }
-
-                                    req.session['message'] = 'User registered successfully!';
-                                    req.session['messageType'] = 'success';
-
-                                    res.redirect('/');
-                                })
+                                return;
                             }
+
+                            req.session['message'] = 'User registered successfully!';
+                            req.session['messageType'] = 'success';
+
+                            res.redirect('/');
                         })
                     })
-                });
+                })
             }
         })
     },
@@ -112,7 +105,7 @@ module.exports = {
                 }
 
                 let returnUrl = '/';
-                if(req.session.returnUrl) {
+                if (req.session.returnUrl) {
                     returnUrl = req.session.returnUrl;
                     delete req.session.returnUrl;
                 }
@@ -136,7 +129,7 @@ module.exports = {
         });
     },
 
-    detailsEditPost: (req,res) => {
+    detailsEditPost: (req, res) => {
 
         let id = req.params.id;
 
@@ -159,7 +152,7 @@ module.exports = {
 
             let finalFilename = `${filename}_${randomChars}.${extension}`;
 
-            image.mv(`./public/images/${finalFilename}` , err => {
+            image.mv(`./public/images/${finalFilename}`, err => {
                 if (err) {
                     console.log(err.message)
                 }
@@ -168,7 +161,13 @@ module.exports = {
 
             let errorMsg = '';
 
-            User.update({_id: id}, {$set: {imagePath: path, firstName: userArgs.firstName, lastName: userArgs.lastName}}).then(updateStatus => {
+            User.update({_id: id}, {
+                $set: {
+                    imagePath: path,
+                    firstName: userArgs.firstName,
+                    lastName: userArgs.lastName
+                }
+            }).then(updateStatus => {
                 res.redirect('/user/details');
             });
         }
