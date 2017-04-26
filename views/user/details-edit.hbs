@@ -1,4 +1,5 @@
-<form class="form-horizontal user-edit" enctype="multipart/form-data" method="post" action="/user/details-edit/{{user.id}}">
+<form class="form-horizontal user-edit" enctype="multipart/form-data" method="post"
+      action="/user/details-edit/{{user.id}}">
     <div style="padding-top:50px;"></div>
     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div id="panel">
@@ -9,13 +10,13 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3 class="panel-title clearfix">Your Name</h3>
-                    <br><br>
                     <form class="form-horizontal user-edit">
                         <label for="First_name">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="ex. John" required name="firstName" value={{firstName}}>
+                        <input type="text" class="form-control" id="firstName" placeholder="ex. John" required
+                               name="firstName" value={{firstName}}>
                         <label for="Last_name">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="ex. Doe" required name="lastName" value={{lastName}}>
+                        <input type="text" class="form-control" id="lastName" placeholder="ex. Doe" required
+                               name="lastName" value={{lastName}}>
                     </form>
                 </div>
             </div>
@@ -24,18 +25,20 @@
                     <h3 class="panel-title clearfix">Describe yourself in 5 words</h3>
                     <br><br>
                     <form class="form-horizontal">
-                        <input type="text" class="form-control" id="keywords" placeholder="Like #movies #cats #travel #teacher #newyork">
+                        <input type="text" class="form-control" id="keywords"
+                               placeholder="Like #movies #cats #travel #teacher #newyork">
                     </form>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3 class="panel-title clearfix">Profile
-                        <picture></picture></h3>
+                    <h3 class="panel-title clearfix">Profile</h3>
+                    <picture></picture>
                     <br><br>
                     <div align="center">
                         <div class="col-lg-12 col-md-12">
-                            <img class="img-thumbnail img-responsive" src="{{user.imagePath}}" width="300px" height="300px">
+                            <img class="img-thumbnail img-responsive" src="{{user.imagePath}}" width="300px"
+                                 height="300px">
                         </div>
                         <label class="btn btn-primary" for="my-file-selector">
                             <input id="my-file-selector" name="image" type="file" style="display:none;">
@@ -55,10 +58,12 @@
                     <!--</form>-->
                     <br><br>
                     <label for="location">Your location</label>
-                    <input type="text" class="form-control" id="location" placeholder="" required name="location" value={{location}}>
+                    <input type="text" class="form-control" id="location" placeholder="" required name="location"
+                           value={{location}}>
                     <br>
                     <label for="gender">Your gender</label>
-                    <input type="text" class="form-control" id="gender" placeholder="" required name="gender" value={{gender}}>
+                    <input type="text" class="form-control" id="gender" placeholder="" required name="gender"
+                           value={{gender}}>
                     <br>
                     <label>Your Birthday</label>
                     <div class="form-inline" id="birth-date">
@@ -242,9 +247,9 @@
                             <option value="31">31</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group-lg">
                         <button type="button" class="btn btn-danger">Cancel</button>
-                        <button class="btn btn-primary"><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update Profile</button>
+                        <button type="button" class="btn btn-primary">Update Profile</button>
                     </div>
                 </div>
             </div>

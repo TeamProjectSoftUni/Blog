@@ -7,13 +7,15 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleTitle">Article Title</label>
                     <div class="col-sm-4 ">
-                        <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="{{title}}" name="title" required >
+                        <input type="text" class="form-control" id="articleTitle" placeholder="Article Title"
+                               value="{{title}}" name="title" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleContent">Content</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" id="articleContent" rows="5" name="content" required>{{content}}</textarea>
+                        <textarea class="form-control" id="articleContent" rows="5" name="content"
+                                  required>{{content}}</textarea>
                     </div>
                 </div>
 
@@ -25,6 +27,12 @@
                                 <option value="{{this._id}}">{{this.name}}</option>
                             {{/each}}
                         </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="article_tags">Tags</label>
+                    <div class="col-sm-4 ">
+                        <input type="text" class="form-control" id="article_tags" placeholder="Tags" name="name">
                     </div>
                 </div>
 
