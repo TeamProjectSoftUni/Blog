@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
 const Category = mongoose.model('Category');
-
+const  Tag = mongoose.model('Tag');
 
 module.exports = {
     index: (req, res) => {
@@ -27,7 +27,14 @@ listCategoryArticles: (req, res) => {
                 console.log(err.message);
             }
 
+            Tag.populate(category.articles, {path: 'tags'}, (err) =>{
+                if (err) {
+                    console.log(err.message);
+                }
+            });
+
             res.render('home/category', {article: category.article})
         });
+
     });
 }};

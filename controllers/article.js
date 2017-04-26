@@ -1,10 +1,12 @@
 const Article = require('mongoose').model('Article');
 const Comment = require('mongoose').model('Comment');
 const Category = require('mongoose').model('Category');
+const Tag = require('mongoose').model('Tag');
+const initializeTags = require('./../models/Tag').initializeTags;
 
 module.exports = {
     createGet: (req, res) => {
-        if(!req.isAuthenticated()) {
+        if (!req.isAuthenticated()) {
             let returnUrl = '/article/create';
             req.session.returnUrl = returnUrl;
 
@@ -55,7 +57,11 @@ module.exports = {
         }
 
         articleArgs.author = req.user.id;
+        articleArgs.tags = [];
         Article.create(articleArgs).then(article => {
+            let tagName = articleArgs.tagNames.split(/\s+,/).filter(tag => {return tag});
+            initializeTags(tagName, article.id);
+
             article.prepareInsert();
             res.redirect('/');
         });
@@ -92,16 +98,16 @@ module.exports = {
             return;
         }
 
-        Article.findById(id).then(article => {
+        Article.findById(id).populate('tags').then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
                 if (!isAdmin && !req.user.isAuthor(article)) {
                     res.redirect('/');
                     return;
                 }
-
                 Category.find({}).then(categories => {
                     article.categories = categories;
 
+                    article.tagNames = article.tags.map(tag => {return tag.name});
                     res.render('article/edit', article)
                 });
             });
@@ -145,30 +151,44 @@ module.exports = {
             articleArgs.imagePath = `/images/${finalFileName}`;
         }
 
-        Article.findById(id).populate('category').then(article => {
-            if(article.category.id !== articleArgs.category) {
+        Article.findById(id).populate('category tags').then(article => {
+            if (article.category.id !== articleArgs.category) {
                 article.category.article.remove(article.id);
                 article.category.save();
             }
-                article.category = articleArgs.category;
-                article.title = articleArgs.title;
-                article.content = articleArgs.content;
-                article.imagePath = articleArgs.imagePath;
+            article.category = articleArgs.category;
+            article.title = articleArgs.title;
+            article.content = articleArgs.content;
+            article.imagePath = articleArgs.imagePath;
 
-                article.save((err) => {
-                    if(err) {
-                        console.log(err.message);
+            let newTagNames = articleArgs.tags.split(/\s+|,/).filter(tag => {return tag});
+
+            let oldTags = article.tags
+                .filter(tag => {
+                    return newTagNames.indexOf(tag.name) === -1;
+                });
+
+            for(let tag of oldTags){
+                tag.deleteArticle(article.id);
+                article.deleteTag(tag.id);
+            }
+
+            initializeTags(newTagNames, article.id);
+
+            article.save((err) => {
+                if (err) {
+                    console.log(err.message);
+                }
+
+                Category.findById(article.category).then(category => {
+                    if (category.article.indexOf(article.id) === -1) {
+                        category.article.push(article.id);
+                        category.save();
                     }
 
-                    Category.findById(article.category).then(category => {
-                        if(category.article.indexOf(article.id) === -1){
-                            category.article.push(article.id);
-                            category.save();
-                        }
-
-                        res.redirect(`/article/details/${id}`);
-                    })
-                });
+                    res.redirect(`/article/details/${id}`);
+                })
+            });
         });
     },
 
@@ -183,13 +203,14 @@ module.exports = {
             return;
         }
 
-        Article.findById(id).then(article => {
+        Article.findById(id).populate('category tags').then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
                 if (!isAdmin && !req.user.isAuthor(article)) {
                     res.redirect('/');
                     return;
                 }
 
+                article.tagNames = article.tags.map(tag => {return tag.name});
                 res.render('article/delete', article)
             });
         });

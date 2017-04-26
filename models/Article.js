@@ -25,6 +25,16 @@ articleSchema.method ({
                 category.save();
             }
         });
+
+        let Tag = mongoose.model('Tag');
+        for (let tagId of this.tags) {
+            Tag.findById(tagId).then(tag => {
+                if(tag) {
+                    tag.articles.push(this.id);
+                    tag.save();
+                }
+            });
+        }
     },
 
     prepareDelete: function () {
@@ -43,6 +53,21 @@ articleSchema.method ({
                 category.save();
             }
         });
+
+        let Tag = mongoose.models('Tag');
+        for(let tagId of this.tags) {
+            Tag.findById(tagId).then(tag => {
+                if(tag) {
+                    tag.articles.remove(this.id);
+                    tag.save();
+                }
+            });
+        }
+    },
+
+    deleteTag: function (tagId){
+        this.tags.remove(tagId);
+        this.save();
     }
 });
 
