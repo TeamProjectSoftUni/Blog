@@ -31,10 +31,10 @@
                     {{/if}}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Category<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                {{#each categories}}
-                                    <li><a href="/category/{{ this._id }}"> {{ this.name }} ({{ this.article.length }}) </a></li>
-                                {{/each}}
+                            <ul class="dropdown-menu categories" role="menu">
+                                <!--{{#each categories}}-->
+                                    <!--<li><a href="/category/{{ this._id }}"> {{ this.name }} ({{ this.article.length }}) </a></li>-->
+                                <!--{{/each}}-->
                             </ul>
                         </li>
                 </ul>
@@ -82,6 +82,20 @@
 
 {{{body}}}
 </body>
+<script>
+    $.ajax({
+        url: '/home/getCategoriesJson',
+        method: 'GET',
+        success: function (categories) {
+            categories = JSON.parse(categories);
+            for(let category of categories) {
+                $('.categories').append(
+                    `<li><a href="/category/${category.id}"> ${category.name} (${category.articlesCount})</a></li>`
+                )
+            }
+        }
+    })
+</script>
 <footer>
     <div class="nav navbar-fixed-bottom">
         <div class="text text-right">

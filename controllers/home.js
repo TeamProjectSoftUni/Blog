@@ -18,16 +18,36 @@ module.exports = {
             })
             })
     },
-listCategoryArticles: (req, res) => {
-    let id = req.params.id;
+    listCategoryArticles: (req, res) => {
+        let id = req.params.id;
 
-    Category.findById(id).populate('article').then(category => {
-        User.populate(category.article, {path: 'author'}, (err) => {
-            if(err) {
-                console.log(err.message);
+        Category.findById(id).populate('article').then(category => {
+            User.populate(category.article, {path: 'author'}, (err) => {
+                if (err) {
+                    console.log(err.message);
+                }
+
+                res.render('home/category', {article: category.article})
+            });
+        });
+    },
+
+    getCategoriesJson: (req, res) => {
+        Category.find({}).then(categories => {
+            let categoriesObj = [];
+
+            for (let category of categories){
+                let categoryObj = {
+                    name: category.name,
+                    id: category._id,
+                    articlesCount: category.article.length
+                };
+
+                categoriesObj.push(categoryObj);
             }
 
-            res.render('home/category', {article: category.article})
+            let categoriesJSON = JSON.stringify(categoriesObj);
+            res.send(categoriesJSON);
         });
-    });
-}};
+    }
+};

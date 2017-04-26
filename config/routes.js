@@ -7,6 +7,7 @@ const adminController = require('./../controllers/admin/admin');
 module.exports = (app) => {
     app.get('/', homeController.index);
     app.get('/category/:id', homeController.listCategoryArticles);
+    app.get('/home/getCategoriesJson', homeController.getCategoriesJson);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
