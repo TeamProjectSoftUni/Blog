@@ -7,7 +7,6 @@ const adminController = require('./../controllers/admin/admin');
 module.exports = (app) => {
     app.get('/', homeController.index);
     app.get('/category/:id', homeController.listCategoryArticles);
-    app.get('/home/getCategoriesJson', homeController.getCategoriesJson);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
@@ -20,6 +19,8 @@ module.exports = (app) => {
 
     app.get('/article/details/:id', articleController.details);
     app.post('/article/details/:id', commentController.commentPost);
+
+    app.post('/article/comment-delete/:id', commentController.commentDelete);
 
     app.get('/user/details', userController.details);
 
