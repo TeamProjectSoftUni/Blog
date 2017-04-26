@@ -38,5 +38,26 @@ module.exports = {
                 })
             });
         });
+    },
+
+    commentDelete: (req, res) => {
+    let id = req.params.id;
+
+        Comment.findOneAndRemove({_id: id}).populate('article').then(comment => {
+           let comments = comment.article.comments;
+
+            let index = comments.indexOf(comment.id);
+
+            if(index < 0) {
+                let errorMsg = "Comment was not found";
+                res.render('article/comment-delete', {error: errorMsg})
+            } else {
+                let count = 1;
+                comments.splice(index, count);
+                comment.article.save().then(() => {
+                    res.redirect(`/article/details/${comment.article.id}`);
+                });
+            }
+        })
     }
 };

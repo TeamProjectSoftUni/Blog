@@ -26,6 +26,9 @@
     </div>
 </div>
 <!--Comments-->
+<div>
+   <p style="margin-left: 115px">Comments({{this.article.comments.length}})</p>
+</div>
 <div class="container body-content">
     <div class="row">
         {{#each article.comments}}
@@ -36,6 +39,13 @@
                     <p>{{this.content}}</p>
                 </div>
             </div>
+                <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                </form>
         {{/each}}
     </div>
 </div>

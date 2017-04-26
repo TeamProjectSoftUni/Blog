@@ -20,6 +20,8 @@ module.exports = (app) => {
     app.get('/article/details/:id', articleController.details);
     app.post('/article/details/:id', commentController.commentPost);
 
+    app.post('/article/comment-delete/:id', commentController.commentDelete);
+
     app.get('/user/details', userController.details);
 
     app.get('/user/logout', userController.logout);
