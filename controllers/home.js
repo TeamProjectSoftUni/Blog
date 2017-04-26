@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
 const Category = mongoose.model('Category');
-const  Tag = mongoose.model('Tag');
+const Tag = mongoose.model('Tag');
 
 module.exports = {
     index: (req, res) => {

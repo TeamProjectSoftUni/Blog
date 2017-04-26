@@ -1,11 +1,9 @@
 {{#if user}}
-    Go to <a href="/user/details-edit/{{user.id}}">edit profile page</a>
-
     <div class="container textReview">
         <div class="span3 well textReview">
             <center>
                 <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="{{user.imagePath}}" name="aboutme" width="140" height="140" class="img-circle"></a>
-                <h3>{{user.fullName}}</h3>
+                <h3>{{user.fullName}} <a href="/user/details-edit/{{user.id}}"><i class="fa fa-pencil-square-o"></i></a></h3>
                 <em>click my face for more</em>
             </center>
         </div>

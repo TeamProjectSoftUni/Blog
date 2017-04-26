@@ -9,6 +9,11 @@
                     {{article.content}}
                 </p>
                 <img src="{{article.imagePath}}"/>
+                <p>
+                    {{#each article.tags}}
+                    {{this.name}},
+                    {{/each}}
+                </p>
                 <small class="author">
                     {{article.author.fullName}}
                 </small>

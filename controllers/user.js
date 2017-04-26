@@ -153,7 +153,7 @@ module.exports = {
         let day = userArgs.day;
         let month = userArgs.month;
         let year = userArgs.year;
-        let birthday = {date: day, month: month, year: year} //new Date(`${day}/${month}/${year}`);
+        let birthday = {date: day, month: month, year: year}; //new Date(`${day}/${month}/${year}`);
 
         if (image) {
             let filenameAndExtension = image.name;

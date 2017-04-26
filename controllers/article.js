@@ -59,7 +59,7 @@ module.exports = {
         articleArgs.author = req.user.id;
         articleArgs.tags = [];
         Article.create(articleArgs).then(article => {
-            let tagName = articleArgs.tagNames.split(/\s+,/).filter(tag => {return tag});
+            let tagName = articleArgs.tagNames.split(/\s+|,/).filter(tag => {return tag});
             initializeTags(tagName, article.id);
 
             article.prepareInsert();
@@ -69,22 +69,21 @@ module.exports = {
 
     details: (req, res) => {
         let id = req.params.id;
+            Article.findById(id).populate('author tags').populate('comments').then(article => {
 
-        Article.findById(id).populate('author').populate('comments').then(article => {
+                if (!req.user) {
+                    res.render('article/details', {article: article, isUserAuthorized: false});
+                    return;
+                }
 
-            if (!req.user) {
-                res.render('article/details', {article: article, isUserAuthorized: false});
-                return;
-            }
+                req.user.isInRole('Admin').then(isAdmin => {
+                    let isAuthor = req.user.isAuthor(article);
 
-            req.user.isInRole('Admin').then(isAdmin => {
-                let isAuthor = req.user.isAuthor(article);
+                    let isUserAuthorized = isAdmin || isAuthor;
 
-                let isUserAuthorized = isAdmin || isAuthor;
-
-                res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
-            });
-        })
+                    res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
+                });
+            })
     },
 
     editGet: (req, res) => {

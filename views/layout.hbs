@@ -8,6 +8,7 @@
     <link href="/stylesheets/css/my-styles.css" rel="stylesheet">
     <link href="/stylesheets/css/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/css/full-slider.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/css/font-awesome.css">
     <script src="/scripts/jquery.min.js"></script>
     <script src="/scripts/bootstrap.js"></script>
 </head>
@@ -60,9 +61,12 @@
                                     </ul>
                                 </li>
                             {{/if}}
-                            <li><a href="/user/details">Welcome {{user.firstName}}!</a></li>
+                            <!--<li><a href="/user/details">Welcome {{user.firstName}}!</a></li>-->
+                            <li><a href="/user/details"><i class="fa fa-user">{{user.firstName}}</i></a></li>
                             <li><a href="/article/create">New Article</a></li>
-                            <li><a href="/user/logout">Logout</a></li>
+                            <!--<li><a href="/user/logout"><i class="fa fa-user" style="color: firebrick"></i></a></li>-->
+                            <li><a href="/user/logout"><i class="fa fa-power-off" style="color: firebrick"></i></a></li>
+                            <!--<li><a href="/user/logout">Logout</a></li>-->
                         </ul>
                     </div>
                 {{/if}}
