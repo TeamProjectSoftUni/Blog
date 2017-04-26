@@ -6,12 +6,7 @@ module.exports = {
     data: (req, res) => {
         User.find({}).then(users => {
 
-            for(let user of users) {
-                user.isInRole('Admin').then(isAdmin => {
-                    user.isAdmin = isAdmin;
-                });
-            }
-
+            let isAdmin = req.user.isInRole('Admin');
             res.render('admin/user/data', {users:users})
         });
     },

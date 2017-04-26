@@ -113,7 +113,15 @@ module.exports = {
                 req.session['message'] = 'User login successfully!';
                 req.session['messageType'] = 'success';
 
-                res.redirect(returnUrl);
+                let id = user.id;
+                let logDate = new Date();
+                User.update({_id: id}, {
+                    $set: {
+                        lastUserLogin: logDate
+                    }
+                }).then(updateStatus => {
+                    res.redirect(returnUrl);
+                });
             })
         })
     },

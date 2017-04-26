@@ -12,6 +12,7 @@ let userSchema = mongoose.Schema(
         imagePath: {type: String},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
+        lastUserLogin: {type:Date, required: true, default: Date.now()},
         salt: {type: String, required: true}
     }
 );
