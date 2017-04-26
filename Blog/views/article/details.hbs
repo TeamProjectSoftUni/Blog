@@ -1,0 +1,84 @@
+<div class="container body-content">
+    <div class="row">
+        <div class="col-md-12">
+            <article>
+                <header>
+                    <h2>{{article.title}}</h2>
+                </header>
+
+                <p>
+                    {{article.content}}
+                </p>
+
+                <img src="{{article.imagePath}}"/>
+
+                <small class="author">
+                    {{article.author.fullName}}
+                </small>
+
+                <footer>
+                    <div class="pull-right">
+                        {{#if isUserAuthorized}}
+                        <a class="btn btn-success btn-xs" href="/article/edit/{{article.id}}">Edit &raquo;</a>
+                        <a class="btn btn-danger btn-xs" href="/article/delete/{{article.id}}">Delete &raquo;</a>
+                        {{/if}}
+                        <a class="btn btn-default btn-xs" href="/">Back &raquo;</a>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </div>
+</div>
+<!--Comments-->
+<div>
+    <p style="margin-left: 115px">Comments({{this.article.comments.length}})</p>
+</div>
+<div class="container body-content">
+    <div class="row">
+        {{#each article.comments}}
+            <div class="col-md-6">
+                <div class="comment">
+                    <small>{{this.name}}</small>
+
+                    <p>{{this.content}}</p>
+                </div>
+            </div>
+            <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+            </form>
+        {{/each}}
+    </div>
+</div>
+<!--comments form-->
+<div class="container body-content span=8 offset=2">
+    <div class="well">
+        <form class="form-horizontal" method="POST" action="/article/details/{{article.id}}">
+            <fieldset>
+                <legend>Add a comment</legend>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="name">Name</label>
+                    <div class="col-sm-4 ">
+                        <input type="text" class="form-control" id="name" placeholder="Name*" name="name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="content">Content</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="content" rows="5" name="content" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <button href="#" type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
