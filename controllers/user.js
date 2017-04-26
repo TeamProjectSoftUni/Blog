@@ -56,6 +56,10 @@ module.exports = {
                     imagePath: path,
                     firstName: registerArgs.firstName,
                     lastName: registerArgs.lastName,
+                    bio: registerArgs.bio,
+                    gender: registerArgs.gender,
+                    location: registerArgs.location,
+                    birthday: {},
                     salt: salt,
                 };
 
@@ -113,7 +117,15 @@ module.exports = {
                 req.session['message'] = 'User login successfully!';
                 req.session['messageType'] = 'success';
 
-                res.redirect(returnUrl);
+                let id = user.id;
+                let logDate = new Date();
+                User.update({_id: id}, {
+                    $set: {
+                        lastUserLogin: logDate
+                    }
+                }).then(updateStatus => {
+                    res.redirect(returnUrl);
+                });
             })
         })
     },
@@ -137,6 +149,11 @@ module.exports = {
 
         let image = req.files.image;
         let path = '';
+
+        let day = userArgs.day;
+        let month = userArgs.month;
+        let year = userArgs.year;
+        let birthday = {date: day, month: month, year: year} //new Date(`${day}/${month}/${year}`);
 
         if (image) {
             let filenameAndExtension = image.name;
@@ -165,7 +182,24 @@ module.exports = {
                 $set: {
                     imagePath: path,
                     firstName: userArgs.firstName,
-                    lastName: userArgs.lastName
+                    lastName: userArgs.lastName,
+                    bio: userArgs.bio,
+                    gender: userArgs.gender,
+                    location: userArgs.location,
+                    birthday: birthday
+                }
+            }).then(updateStatus => {
+                res.redirect('/user/details');
+            });
+        } else {
+            User.update({_id: id}, {
+                $set: {
+                    firstName: userArgs.firstName,
+                    lastName: userArgs.lastName,
+                    bio: userArgs.bio,
+                    gender: userArgs.gender,
+                    location: userArgs.location,
+                    birthday: birthday
                 }
             }).then(updateStatus => {
                 res.redirect('/user/details');

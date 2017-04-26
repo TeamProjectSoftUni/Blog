@@ -6,12 +6,7 @@ module.exports = {
     data: (req, res) => {
         User.find({}).then(users => {
 
-            for(let user of users) {
-                user.isInRole('Admin').then(isAdmin => {
-                    user.isAdmin = isAdmin;
-                });
-            }
-
+            let isAdmin = req.user.isInRole('Admin');
             res.render('admin/user/data', {users:users})
         });
     },
@@ -27,7 +22,10 @@ module.exports = {
                     }
                 }
 
-                res.render('admin/user/edit', {user: user, roles: roles});
+                let message = req.session['message'];
+                let messageType = req.session['messageType'];
+
+                res.render('admin/user/edit', {user: user, roles: roles, message: message, messageType: messageType});
             })
         });
     },
@@ -46,10 +44,15 @@ module.exports = {
                 errorMsg = 'Name cannot be null!';
             } else if (userArgs.password !== userArgs.confirmedPassword) {
                 errorMsg = 'Passwords do not match!'
+            }  else if (!userArgs.roles) {
+                errorMsg = 'Please select at least one role!';
             }
 
             if (errorMsg) {
-                res.render('admin/user/edit', userArgs);
+                req.session['messageType'] = "danger";
+                req.session['message'] = errorMsg;
+
+                res.redirect(`/admin/user/edit/${id}`);
             } else {
                 Role.find({}).then(roles => {
                     if (!userArgs.roles){

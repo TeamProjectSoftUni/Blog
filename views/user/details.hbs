@@ -20,7 +20,7 @@
                     <div class="modal-body">
                         <center>
                             <img src="{{user.imagePath}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                            <h3 class="media-heading textReview">{{user.fullName}} <small>USA</small></h3>
+                            <h3 class="media-heading textReview">{{user.fullName}} <small>{{user.location}}</small></h3>
                             <span><strong>Skills: </strong></span>
                             <span class="label label-warning">HTML5/CSS</span>
                             <span class="label label-info">Adobe CS 5.5</span>
@@ -30,13 +30,13 @@
                         <hr>
                         <center>
                             <p class="text-left"><strong>Bio: </strong><br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.</p>
+                                {{user.bio}}</p>
                             <br>
                         </center>
                     </div>
                     <div class="modal-footer">
                         <center>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">I've heard enough about Joe</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">I've heard enough about {{user.fullName}}</button>
                         </center>
                     </div>
                 </div>

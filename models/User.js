@@ -10,8 +10,13 @@ let userSchema = mongoose.Schema(
         firstName: {type: String},
         lastName: {type: String},
         imagePath: {type: String},
+        bio: {type: String},
+        gender: {type: String},
+        location: {type: String},
+        birthday: {type: Object},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
+        lastUserLogin: {type:Date, required: true, default: Date.now()},
         salt: {type: String, required: true}
     }
 );
