@@ -13,6 +13,7 @@
     "express-fileupload": "^0.1.2",
     "express-session": "^1.15.2",
     "hbs": "~4.0.1",
+    "moment": "^2.18.1",
     "mongoose": "^4.9.2",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",

@@ -15,14 +15,14 @@
                 </thead>
                 <tbody>
                 {{#each categories}}
-                    <td>{{ @key }}</td>
+                    <td class="num">{{ @key }}</td>
                     <td>{{ this.name }}</td>
                     <td>
-                        <button type="button" onclick="location.href='/admin/category/edit/{{this._id}}';" class="btn btn-primary btn-xs"><span
-                                class="glyphicon glyphicon-edit"></span> Edit
+                        <button type="button" onclick="location.href='/admin/category/edit/{{this._id}}';" class="btn btn-primary btn-xs"><i
+                                class="fa fa-pencil-square-o"></i> Edit
                         </button>
-                        <button type="button" onclick="location.href='/admin/category/delete/{{this._id}}'" class="btn btn-danger btn-xs"><span
-                                class="glyphicon glyphicon-remove-circle"></span> Delete
+                        <button type="button" onclick="location.href='/admin/category/delete/{{this._id}}'" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i> Delete
                         </button>
                     </td>
                     </tr>
@@ -31,4 +31,10 @@
             </table>
         </div>
     </div>
-
+</div>
+<script>
+    let a = $(".num");
+    for (let i = 0; i < a.length; i++) {
+        a[i].innerText = i + 1;
+    }
+</script>
