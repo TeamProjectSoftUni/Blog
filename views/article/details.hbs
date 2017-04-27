@@ -40,23 +40,23 @@
                 {{#each article.comments}}
                     <li>
                         <div class="comment-main-level">
-                            <!-- Avatar -->
                             <div class="comment-avatar"><img src="https://www.hearingtracker.com/assets/avatar_unknown-3809f4251f011bc6f801ea7c0d667f48552457edfa92dde7d20ea822e37bd068.jpg" alt=""></div>
-                            <!-- Contenedor del Comentario -->
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a>{{this.name}}</a></h6>
                                     <span>TimeLeaveComment</span>
                                 </div>
-                                <div class="pull-right del-comment">
-                                    <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
-                                        <div class="form-group">
-                                            <div class="col-sm-4 col-sm-offset-4">
-                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
+                                {{#if @root.pich}}
+                                    <div class="pull-right del-comment">
+                                        <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+                                {{/if}}
                                 <div class="comment-content">
                                     {{this.content}}
                                 </div>
