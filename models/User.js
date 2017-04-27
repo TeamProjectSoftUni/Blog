@@ -16,7 +16,7 @@ let userSchema = mongoose.Schema(
         birthday: {type: Object},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
-        lastUserLogin: {type:Date, required: true, default: Date.now()},
+        lastUserLogin: {type:String, required: true},
         salt: {type: String, required: true}
     }
 );

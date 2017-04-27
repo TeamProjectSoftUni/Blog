@@ -1,6 +1,7 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
+const moment = require('moment');
 
 module.exports = {
     registerGet: (req, res) => {
@@ -49,6 +50,8 @@ module.exports = {
                     path = registerArgs.imagePath = `/images/${finalFilename}`;
                 }
 
+                let date = new Date();
+
                 let userObject = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
@@ -60,6 +63,7 @@ module.exports = {
                     gender: registerArgs.gender,
                     location: registerArgs.location,
                     birthday: {},
+                    lastUserLogin: moment(date).format("LLLL"),
                     salt: salt,
                 };
 
@@ -118,7 +122,8 @@ module.exports = {
                 req.session['messageType'] = 'success';
 
                 let id = user.id;
-                let logDate = new Date();
+                let newDate = new Date().toString();
+                let logDate = moment(newDate).format("LLLL");
                 User.update({_id: id}, {
                     $set: {
                         lastUserLogin: logDate
