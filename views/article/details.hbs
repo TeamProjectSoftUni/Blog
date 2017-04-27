@@ -31,29 +31,73 @@
     </div>
 </div>
 <!--Comments-->
-<div>
-   <p style="margin-left: 115px">Comments({{this.article.comments.length}})</p>
-</div>
-<div class="container body-content">
-    <div class="row">
-        {{#each article.comments}}
-            <div class="col-md-6">
-                <div class="comment">
-                    <small>{{this.name}}</small>
 
-                    <p>{{this.content}}</p>
-                </div>
-            </div>
-                <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
-                        <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-4">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+<div class="container">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <div class="row">
+        <!-- Comments Lenght -->
+        <div class="comments-container">
+            <h3>Comments ({{this.article.comments.length}})</h3>
+
+            <ul id="comments-list" class="comments-list">
+                {{#each article.comments}}
+                    <li>
+                        <div class="comment-main-level">
+                            <!-- Avatar -->
+                            <div class="comment-avatar"><img src="https://www.hearingtracker.com/assets/avatar_unknown-3809f4251f011bc6f801ea7c0d667f48552457edfa92dde7d20ea822e37bd068.jpg" alt=""></div>
+                            <!-- Contenedor del Comentario -->
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <h6 class="comment-name"><a>{{this.name}}</a></h6>
+                                    <span>TimeLeaveComment</span>
+                                    <i class="fa fa-reply"></i>
+                                    <i class="fa fa-heart"></i>
+                                </div>
+                                <div class="pull-right">
+                                    <form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">
+                                        <div class="form-group">
+                                            <div class="col-sm-4 col-sm-offset-4">
+                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="comment-content">
+                                    {{this.content}}
+                                </div>
                             </div>
                         </div>
-                </form>
-        {{/each}}
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
     </div>
 </div>
+
+<!--EndCommentTest-->
+<!--<div>-->
+   <!--<p style="margin-left: 115px">Comments({{this.article.comments.length}})</p>-->
+<!--</div>-->
+<!--<div class="container body-content">-->
+    <!--<div class="row">-->
+        <!--{{#each article.comments}}-->
+            <!--<div class="col-md-6">-->
+                <!--<div class="comment">-->
+                    <!--<small>{{this.name}}</small>-->
+
+                    <!--<p>{{this.content}}</p>-->
+                <!--</div>-->
+            <!--</div>-->
+                <!--<form class="form-horizontal" method="POST" action="/article/comment-delete/{{this.id}}">-->
+                        <!--<div class="form-group">-->
+                            <!--<div class="col-sm-4 col-sm-offset-4">-->
+                                <!--<button type="submit" class="btn btn-danger">Delete</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                <!--</form>-->
+        <!--{{/each}}-->
+    <!--</div>-->
+<!--</div>-->
 <!--comments form-->
 <div class="container body-content span=8 offset=2">
     <div class="well">
