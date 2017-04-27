@@ -62,8 +62,7 @@ module.exports = {
                     bio: registerArgs.bio,
                     gender: registerArgs.gender,
                     location: registerArgs.location,
-                    birthday: {},
-                    lastUserLogin: moment(date).format("LLLL"),
+                    lastUserLogin: date,
                     salt: salt,
                 };
 
@@ -122,11 +121,10 @@ module.exports = {
                 req.session['messageType'] = 'success';
 
                 let id = user.id;
-                let newDate = new Date().toString();
-                let logDate = moment(newDate).format("LLLL");
+                let newDate = new Date();
                 User.update({_id: id}, {
                     $set: {
-                        lastUserLogin: logDate
+                        lastUserLogin: newDate
                     }
                 }).then(updateStatus => {
                     res.redirect(returnUrl);
@@ -142,7 +140,15 @@ module.exports = {
     detailsEditGet: (req, res) => {
         let id = req.params.id;
         User.findById(id).then(user => {
-            res.render('user/details-edit', user)
+            let birthday = {day: 1, month: "January", year: 1900};
+            if (user.birthday) {
+                birthday = {
+                    day: user.birthday.getUTCDate(),
+                    month: user.birthday.toLocaleString("en-us", {month: "long"}),
+                    year: user.birthday.getUTCFullYear()
+                };
+            }
+            res.render('user/details-edit', {user: user, birthday: birthday})
         });
     },
 
@@ -158,7 +164,7 @@ module.exports = {
         let day = userArgs.day;
         let month = userArgs.month;
         let year = userArgs.year;
-        let birthday = {date: day, month: month, year: year}; //new Date(`${day}/${month}/${year}`);
+        let birthday = new Date(`${year}-${month}-${day}-12:00:00`);
 
         if (image) {
             let filenameAndExtension = image.name;

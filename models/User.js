@@ -13,15 +13,15 @@ let userSchema = mongoose.Schema(
         bio: {type: String},
         gender: {type: String},
         location: {type: String},
-        birthday: {type: Object},
-        articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
-        roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
-        lastUserLogin: {type:String, required: true},
+        birthday: {type: Date, default: null},
+        articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+        roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
+        lastUserLogin: {type: Date},
         salt: {type: String, required: true}
     }
 );
 
-userSchema.method ({
+userSchema.method({
     authenticate: function (password) {
         let inputPasswordHash = encryption.hashPassword(password, this.salt);
         let isSamePasswordHash = inputPasswordHash === this.passwordHash;
@@ -30,7 +30,7 @@ userSchema.method ({
     },
 
     isAuthor: function (article) {
-        if(!article){
+        if (!article) {
             return false;
         }
         let isAuthor = article.author.equals(this.id);
@@ -40,7 +40,7 @@ userSchema.method ({
 
     isInRole: function (roleName) {
         return Role.findOne({name: roleName}).then(role => {
-            if(!role){
+            if (!role) {
                 return false;
             }
 
@@ -82,10 +82,10 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = User;
 
-module.exports.seedAdmin = () =>{
+module.exports.seedAdmin = () => {
     let email = 'admin@admin.bg';
     User.findOne({email: email}).then(admin => {
-        if(!admin){
+        if (!admin) {
             Role.findOne({name: 'Admin'}).then(role => {
                 let salt = encryption.generateSalt();
                 let passwordHash = encryption.hashPassword('admin', salt);
@@ -108,9 +108,9 @@ module.exports.seedAdmin = () =>{
                 User.create(user).then(user => {
                     role.users.push(user.id);
                     role.save(err => {
-                        if(err){
+                        if (err) {
                             console.log(err.message);
-                        }else {
+                        } else {
                             console.log('Admin seeded successfully')
                         }
                     })

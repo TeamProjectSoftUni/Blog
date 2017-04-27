@@ -13,10 +13,10 @@
                     <form class="form-horizontal user-edit">
                         <label for="First_name">First name</label>
                         <input type="text" class="form-control" id="firstName" placeholder="ex. John" required
-                               name="firstName" value={{firstName}}>
+                               name="firstName" value={{user.firstName}}>
                         <label for="Last_name">Last name</label>
                         <input type="text" class="form-control" id="lastName" placeholder="ex. Doe" required
-                               name="lastName" value={{lastName}}>
+                               name="lastName" value={{user.lastName}}>
                     </form>
                 </div>
             </div>
@@ -54,16 +54,16 @@
                 <div class="panel-body">
                     <!--<form class="form-horizontal">-->
                     <label>Your bio</label>
-                    <textarea class="form-control" rows="3" id="bio" required name="bio">{{bio}}</textarea>
+                    <textarea class="form-control" rows="3" id="bio" required name="bio">{{user.bio}}</textarea>
                     <!--</form>-->
                     <br><br>
                     <label for="location">Your location</label>
                     <input type="text" class="form-control" id="location" placeholder="" required name="location"
-                           value={{location}}>
+                           value={{user.location}}>
                     <br>
                     <label for="gender">Your gender</label>
                     <input type="text" class="form-control" id="gender" placeholder="" required name="gender"
-                           value={{gender}}>
+                           value={{user.gender}}>
                     <br>
                     <label>Your Birthday</label>
                     <div class="form-inline" id="birth-date">
@@ -200,11 +200,11 @@
                             <option value="December">December</option>
                         </select>
                         <select id="profile_date_day" name="day" class="form-control">
-                            {{#if birthday.date}}
-                                <option value="{{birthday.date}}" selected="selected">{{birthday.date}}</option>
+                            {{#if birthday.day}}
+                                <option value="{{birthday.day}}" selected="selected">{{birthday.day}}</option>
                             {{/if}}
-                            {{#unless birthday.date}}
-                                <option value="{{birthday.date}}" selected="selected">Day</option>
+                            {{#unless birthday.day}}
+                                <option value="{{birthday.day}}" selected="selected">Day</option>
                             {{/unless}}
                             <!--<script>-->
                             <!--let day = $(".dayofmonth");-->

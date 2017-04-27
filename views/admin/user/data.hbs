@@ -17,7 +17,7 @@
                     {{#each users}}
                         <tr class="info">
                             <td class="num">{{@key}}</td>
-                            <td>{{ this.lastUserLogin }}</td>
+                            <td class="date">{{ this.lastUserLogin }}</td>
                             <td>{{ this.fullName }}</td>
                             <td>{{ this.email }}</td>
                             <td>
@@ -45,4 +45,8 @@
         a[i].innerText = i + 1;
     }
 </script>
-
+<script>
+    $('.date').each(function (index, value) {
+        $(this).text(moment($(this).text()).format("LLLL"));
+    });
+</script>

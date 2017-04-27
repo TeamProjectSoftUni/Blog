@@ -384,3 +384,10 @@ body {
     margin-top: 5px;
     margin-right: 50px;
 }
+
+.profileImage {
+    width: 140px;
+    height: 140px;
+    background-position: center;
+    border: 3px solid #EFE;
+}

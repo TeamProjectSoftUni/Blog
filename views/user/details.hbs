@@ -2,7 +2,10 @@
     <div class="container textReview">
         <div class="span3 well textReview">
             <center>
-                <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="{{user.imagePath}}" name="aboutme" width="140" height="140" class="img-circle"></a>
+                <a href="#aboutModal" data-toggle="modal" data-target="#myModal">
+                    <div style="background-image: url('{{user.imagePath}}')" name="aboutme" border="0"
+                         class="img-circle profileImage"></div>
+                </a>
                 <h3>{{user.fullName}} <a href="/user/details-edit/{{user.id}}"><i class="fa fa-pencil-square-o"></i></a></h3>
                 <em>click my face for more</em>
             </center>
@@ -17,8 +20,12 @@
                     </div>
                     <div class="modal-body">
                         <center>
-                            <img src="{{user.imagePath}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                            <h3 class="media-heading textReview">{{user.fullName}} <small>{{user.location}}</small></h3>
+                            <div style="background-image: url('{{user.imagePath}}')" name="aboutme" border="0"
+                                 class="img-circle profileImage"></div>
+                            </a>
+                            <h3 class="media-heading textReview">{{user.fullName}}
+                                <small>{{user.location}}</small>
+                            </h3>
                             <span><strong>Skills: </strong></span>
                             <span class="label label-warning">HTML5/CSS</span>
                             <span class="label label-info">Adobe CS 5.5</span>
@@ -34,7 +41,8 @@
                     </div>
                     <div class="modal-footer">
                         <center>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">I've heard enough about {{user.fullName}}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">I've heard enough
+                                about {{user.fullName}}</button>
                         </center>
                     </div>
                 </div>
