@@ -35,7 +35,13 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <div class="row">
         <div class="comments-container">
-            <h3>Comments ({{this.article.comments.length}})</h3>
+            <div class="custom-tag"></div>
+            <script>
+                let commentCount = {{this.article.comments.length}};
+                if(commentCount > 0) {
+                    $('.custom-tag').html('<h3>Comments({{this.article.comments.length}})</h3>');
+                }
+            </script>
             <ul id="comments-list" class="comments-list">
                 {{#each article.comments}}
                     <li>
