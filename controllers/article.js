@@ -81,7 +81,7 @@ module.exports = {
 
                     let isUserAuthorized = isAdmin || isAuthor;
 
-                    res.render('article/details', {article: article, pich: isUserAuthorized});
+                    res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
                 });
             })
     },
