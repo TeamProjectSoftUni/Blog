@@ -3484,7 +3484,7 @@ a.btn.disabled, fieldset[disabled] a.btn {
     color: #ffffff;
     background-color: #df691a;
     border-color: transparent;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -3741,14 +3741,14 @@ a.btn.disabled, fieldset[disabled] a.btn {
     padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 0
+    border-radius: 0;
 }
 
 .btn-xs, .btn-group-xs > .btn {
     padding: 1px 5px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 0
+    border-radius: 0;
 }
 
 .btn-block {
