@@ -59,8 +59,8 @@ module.exports = {
         articleArgs.author = req.user.id;
         articleArgs.tags = [];
         Article.create(articleArgs).then(article => {
-            let tagName = articleArgs.tagNames.split(/\s+|,/).filter(tag => {return tag});
-            initializeTags(tagName, article.id);
+            let tagNames = articleArgs.tagNames.split(/\s+|,/).filter(tag => {return tag});
+            initializeTags(tagNames, article.id);
 
             article.prepareInsert();
             res.redirect('/');
@@ -159,20 +159,6 @@ module.exports = {
             article.title = articleArgs.title;
             article.content = articleArgs.content;
             article.imagePath = articleArgs.imagePath;
-
-            let newTagNames = articleArgs.tags.split(/\s+|,/).filter(tag => {return tag});
-
-            let oldTags = article.tags
-                .filter(tag => {
-                    return newTagNames.indexOf(tag.name) === -1;
-                });
-
-            for(let tag of oldTags){
-                tag.deleteArticle(article.id);
-                article.deleteTag(tag.id);
-            }
-
-            initializeTags(newTagNames, article.id);
 
             article.save((err) => {
                 if (err) {
