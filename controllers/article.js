@@ -59,7 +59,9 @@ module.exports = {
         articleArgs.author = req.user.id;
         articleArgs.tags = [];
         Article.create(articleArgs).then(article => {
-            let tagNames = articleArgs.tagNames.split(/\s+|,/).filter(tag => {return tag});
+            let tagNames = articleArgs.tagNames.split(/\s+|,/).filter(tag => {
+                return tag
+            });
             initializeTags(tagNames, article.id);
 
             article.prepareInsert();
@@ -69,21 +71,23 @@ module.exports = {
 
     details: (req, res) => {
         let id = req.params.id;
-            Article.findById(id).populate('author tags').populate('comments').then(article => {
+        Article.findById(id).populate('author tags').populate('comments').then(article => {
 
-                if (!req.user) {
-                    res.render('article/details', {article: article, isUserAuthorized: false});
-                    return;
-                }
+            if (!req.user) {
+                res.render('article/details', {article: article, isUserAuthorized: false});
+                return;
+            }
 
-                req.user.isInRole('Admin').then(isAdmin => {
+            req.user.isInRole('Admin').then(isAdmin => {
+                req.user.isInRole('Moderator').then(isModerator => {
                     let isAuthor = req.user.isAuthor(article);
 
-                    let isUserAuthorized = isAdmin || isAuthor;
+                    let isUserAuthorized = isAdmin || isModerator || isAuthor;
 
                     res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
                 });
-            })
+            });
+        })
     },
 
     editGet: (req, res) => {
@@ -99,15 +103,19 @@ module.exports = {
 
         Article.findById(id).populate('tags').then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
-                if (!isAdmin && !req.user.isAuthor(article)) {
-                    res.redirect('/');
-                    return;
-                }
-                Category.find({}).then(categories => {
-                    article.categories = categories;
+                req.user.isInRole('Moderator').then(isModerator => {
+                    if (!isAdmin && !req.user.isAuthor(article) && !isModerator) {
+                        res.redirect('/');
+                        return;
+                    }
+                    Category.find({}).then(categories => {
+                        article.categories = categories;
 
-                    article.tagNames = article.tags.map(tag => {return tag.name});
-                    res.render('article/edit', article)
+                        article.tagNames = article.tags.map(tag => {
+                            return tag.name
+                        });
+                        res.render('article/edit', article)
+                    });
                 });
             });
         });
@@ -190,13 +198,17 @@ module.exports = {
 
         Article.findById(id).populate('category tags').then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
-                if (!isAdmin && !req.user.isAuthor(article)) {
-                    res.redirect('/');
-                    return;
-                }
+                req.user.isInRole('Moderator').then(isModerator => {
+                    if (!isAdmin && !req.user.isAuthor(article) && !isModerator) {
+                        res.redirect('/');
+                        return;
+                    }
 
-                article.tagNames = article.tags.map(tag => {return tag.name});
-                res.render('article/delete', article)
+                    article.tagNames = article.tags.map(tag => {
+                        return tag.name
+                    });
+                    res.render('article/delete', article)
+                });
             });
         });
     },

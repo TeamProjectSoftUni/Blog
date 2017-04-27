@@ -7,7 +7,7 @@ module.exports = {
         User.find({}).then(users => {
 
             let isAdmin = req.user.isInRole('Admin');
-            res.render('admin/user/data', {users:users})
+            res.render('admin/user/data', {users: users})
         });
     },
 
@@ -36,7 +36,7 @@ module.exports = {
 
         User.findOne({email: userArgs.email, _id: {$ne: id}}).then(user => {
             let errorMsg = '';
-            if(user) {
+            if (user) {
                 errorMsg = 'User with this username already exists!';
             } else if (!userArgs.email) {
                 errorMsg = 'Email cannot be null!';
@@ -44,7 +44,7 @@ module.exports = {
                 errorMsg = 'Name cannot be null!';
             } else if (userArgs.password !== userArgs.confirmedPassword) {
                 errorMsg = 'Passwords do not match!'
-            }  else if (!userArgs.roles) {
+            } else if (!userArgs.roles) {
                 errorMsg = 'Please select at least one role!';
             }
 
@@ -54,36 +54,62 @@ module.exports = {
 
                 res.redirect(`/admin/user/edit/${id}`);
             } else {
-                Role.find({}).then(roles => {
-                    if (!userArgs.roles){
-                        userArgs.roles = [];
+                User.findOne({_id: id}).then(user => {
+                    user.email = userArgs.email;
+                    user.fullName = userArgs.fullName;
+                    user.roles = [];
+                    let passwordHash = user.passwordHash;
+                    if (userArgs.password) {
+                        passwordHash = encryption.hashPassword(userArgs.password, user.salt);
                     }
-                    let newRoles = roles.filter(role => {
-                        return userArgs.roles.indexOf(role.name) !== -1;
-                    }).map(role => {
-                        return role.id;
-                    });
 
-                    User.findOne({_id: id}).then(user => {
-                        user.email = userArgs.email;
-                        user.fullName = userArgs.fullName;
+                    user.passwordHash = passwordHash;
 
-                        let passwordHash = user.passwordHash;
-                        if(userArgs.password) {
-                            passwordHash = encryption.hashPassword(userArgs.password, user.salt);
-                        }
-
-                        user.passwordHash = passwordHash;
-                        user.roles = newRoles;
-
-                        user.save((err) => {
-                            if (err) {
-                                res.redirect('/');
-                            } else {
-                                res.redirect('/admin/user/data');
+                    for (let roleName of userArgs.roles) {
+                        Role.findOne({name: roleName}).then(role => {
+                            if (!role) {
+                                res.render('admin/user/edit', {error: "Role not found in database."});
+                                return;
                             }
-                        })
+
+                            let userIsNotInRole = role.users.indexOf(user.id) == -1;
+                            if (userIsNotInRole) {
+                                role.users.push(user.id);
+                            }
+
+                            role.save((err) => {
+                                if (err) {
+                                    res.render('/', {error: "Unable to save user inside roles table. Please try again later"});
+                                }
+                            });
+
+                            user.roles.push(role.id);
+                            user.save((err) => {
+                                if (err) {
+                                    res.render('/', {error: "Unable to save role inside user table. Please try again later"});
+                                }
+                            })
+                        });
+                    }
+
+
+                    // Makes sure user id is removed from all unwanted roles.
+                    Role.find({}).then(roles => {
+                        // Returns all roles which should be deactivated for the user
+                        let inactiveRoles = roles.filter(r => userArgs.roles.indexOf(r.name) == -1);
+
+                        for (let i = 0; i < inactiveRoles.length; i++) {
+                            let userIdIndex = inactiveRoles[i].users.indexOf(user.id);
+                            if (userIdIndex == -1) {
+                                continue;
+                            }
+
+                            inactiveRoles[i].users.splice(userIdIndex, 1);
+                            inactiveRoles[i].save();
+                        }
                     });
+
+                    res.redirect('/admin/user/data');
                 });
             }
         });
