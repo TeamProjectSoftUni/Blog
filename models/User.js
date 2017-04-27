@@ -101,6 +101,7 @@ module.exports.seedAdmin = () =>{
                     imagePath: '',
                     articles: [],
                     salt: salt,
+                    lastUserLogin: Date.now(),
                     roles: roles
                 };
 
