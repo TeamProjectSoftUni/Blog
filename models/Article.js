@@ -54,7 +54,7 @@ articleSchema.method ({
             }
         });
 
-        let Tag = mongoose.models('Tag');
+        let Tag = mongoose.model('Tag');
         for(let tagId of this.tags) {
             Tag.findById(tagId).then(tag => {
                 if(tag) {
