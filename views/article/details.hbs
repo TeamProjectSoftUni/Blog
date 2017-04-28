@@ -5,10 +5,10 @@
                 <header>
                     <h2>{{article.title}}</h2>
                 </header>
+                <img src="{{article.imagePath}}" class="article-image" />
                 <p>
                     {{article.content}}
                 </p>
-                <img src="{{article.imagePath}}" class="article-image" />
                 <p>
                     {{#each article.tags}}
                     {{this.name}},
