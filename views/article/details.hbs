@@ -50,7 +50,7 @@
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a>{{this.name}}</a></h6>
-                                    <span>TimeLeaveComment</span>
+                                    <span><time class="date">{{this.date}}</time></span>
                                 </div>
                                 {{#if @root.isAdmin}}
                                     <div class="pull-right del-comment">
@@ -102,4 +102,9 @@
         </form>
     </div>
 </div>
+<script>
+    $('.date').each(function (index, value) {
+        $(this).text(moment($(this).text()).format("LLLL"));
+    });
+</script>
 
