@@ -38,3 +38,9 @@ footer {
 .article-image{
     max-width: 768px;
 }
+.profileImage {
+    width: 175px;
+    height: 175px;
+    background-position: center;
+    border: 3px solid #EFE;
+}
